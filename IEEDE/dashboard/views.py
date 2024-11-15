@@ -29,6 +29,9 @@ def citizen_login(request):
             ## mec_id verification
     return render(request, 'citizen_login.html')
 
+def citizen_reg(request):
+    return render(request, 'citizen_reg.html')
+
 @login_required
 def home(request):
     return render(request, 'citizen_landing.html')
@@ -56,6 +59,9 @@ def institution_login(request):
             else:
                 return redirect("/institution-login")
     return render(request, 'institution_login.html')
+
+def institution_reg(request):
+    return render(request,"institution_reg.html")
 
 @login_required
 def institution_logout(request):

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Institution Registration</title>
+    <style>
+      @font-face {
+        font-family: SUSE-Medium;
+        src: url(../static/fonts/SUSE-Medium.ttf);
+      }
+
+      @font-face {
+        font-family: SUSE-light;
+        src: url(../static/fonts/SUSE-Light.ttf);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .sec1 {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0px 0px 40px 40px;
+        padding: 70px 0px;
+      }
+      .login {
+        min-height: 70vh;
+        width: 40%;
+        display: flex;
+        align-items: center;
+        border-radius: 17px;
+        overflow: hidden;
+        box-shadow: 0px 0px 30px #00000044;
+      }
+      .login-form-body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 30px 40px;
+      }
+      .login-form-body h3 {
+        font-family: SUSE-Medium;
+        font-size: 30px;
+        border-bottom: 2px solid #00000008;
+        padding-bottom: 10px;
+      }
+      .login-form-body p {
+        padding-top: 16px;
+        font-family: SUSE-light;
+        /* text-align: center; */
+        font-size: 12px;
+        color: #363636;
+      }
+      .login-form-body h3::first-letter {
+        color: #800000;
+      }
+      .login-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-top: 40px;
+      }
+      .input-box {
+        display: flex;
+        flex-direction: column;
+      }
+      .input-box label {
+        color: #363636;
+        font-size: 12px;
+        font-family: SUSE-Medium;
+        margin: 7px 0px;
+      }
+      .input-box .input {
+        height: 50px;
+        padding-left: 5px;
+        border-radius: 10px;
+        border: 2px solid #13334d;
+        font-size: 16px;
+        font-family: SUSE-Medium;
+        outline: none;
+        transition: 0.3s;
+      }
+      .input-box .input:focus {
+        border-color: #2c74af;
+      }
+      .input-box .input[type="number"]::-webkit-outer-spin-button,
+      .input-box .input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .hidden {
+  display: none;
+}
+
+.error-msg {
+  color: red;
+  visibility: hidden;
+  font-size: 0.9em;
+}
+
+      .btn {
+        margin-top: 25px;
+        padding: 13px 16px;
+        width: 40%;
+        align-self: center;
+        cursor: pointer;
+        background-color: #2c74af;
+        border: none;
+        border-radius: 10px;
+        font-family: SUSE-Medium;
+        color: #ffffff;
+        transition: 0.3s;
+        &:hover {
+          background-color: #13334d;
+        }
+      }
+      #logotpform {
+        display: none;
+      }
+
+      @media screen and (max-width: 480px) {
+        .sec1 {
+          height: auto;
+        }
+        .login {
+          flex-direction: column;
+          width: 100%;
+          height: auto;
+          border-radius: 0;
+        }
+        .login .cover-pic {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #13334d;
+          border-radius: 0px 0px 8px 8px;
+        }
+        .login .cover-pic img {
+          height: 40vh;
+          width: 65%;
+        }
+        .login-form-body {
+          width: 100%;
+          height: auto;
+          padding: 20px 30px;
+        }
+        .btn {
+          margin-top: 12px;
+          width: 100%;
+        }
+        .login-form {
+          padding-top: 23px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="sec1">
+      <div class="login">
+        <div class="login-form-body">
+          <h3>Institution Registration</h3>
+          <p id="log-txt">
+            After clicking "Send OTP," a one-time password will be sent to your
+            registered email id for verification.
+          </p>
+        <!-- Registration Form -->
+<form class="login-form" id="insregform" method="POST">
+  {% csrf_token %}
+  
+  <div class="input-box">
+    <label for="license">Enter License No<sup style="color:red;">*</sup></label>
+    <input class="input" type="text" name="license" id="license" required />
+    <span id="licenseerror" class="error-msg">Invalid License No</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="institution">Enter Institution Name<sup style="color:red;">*</sup></label>
+    <input class="input" type="text" name="institution" id="institution" required />
+    <span id="institutionerror" class="error-msg">Invalid Institution Name</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="password">Enter Password<sup style="color:red;">*</sup></label>
+    <input class="input" type="password" name="password" id="password" required />
+    <span id="passworderror" class="error-msg">Invalid Password</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="confirm_password">Confirm Password<sup style="color:red;">*</sup></label>
+    <input class="input" type="password" name="confirm_password" id="confirm_password" required />
+    <span id="confirm_passworderror" class="error-msg">Passwords do not match</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="type">Select Institution Type<sup style="color:red;">*</sup></label>
+    <select class="input" name="type" id="type" required>
+      <option value="" disabled selected>Choose an option</option>
+      <option value="School">School</option>
+      <option value="College">College</option>
+      <option value="University">University</option>
+    </select>
+    <span id="typeerror" class="error-msg">Invalid Selection</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="address">Enter Address<sup style="color:red;">*</sup></label>
+    <textarea
+      class="input"
+      name="address"
+      id="address"
+      style="height: 100px"
+      required
+    ></textarea>
+    <span id="addresserror" class="error-msg">Invalid Address</span>
+  </div>
+  
+  <div class="input-box">
+    <label for="logo">Upload Institution Logo<sup style="color:red;">*</sup></label>
+    <input class="input" type="file" name="logo" id="logo" accept="image/*" required />
+    <span id="logoerror" class="error-msg">Invalid Logo File</span>
+  </div>
+  
+  <input class="btn" id="register-btn" type="submit" value="Register" />
+</form>
+
+
+<!-- OTP Verification Form (Initially Hidden) -->
+<form class="login-form hidden" id="otpverificationform" method="POST">
+  {% csrf_token %}
+  
+  <div class="input-box otp">
+    <label for="verification_otp">Enter OTP<sup style="color:red;">*</sup></label>
+    <input class="input" type="text" name="verification_otp" id="verification_otp" />
+    <span id="otperror" class="error-msg">Invalid OTP</span>
+  </div>
+  
+  <input
+    class="btn"
+    id="otp-verify-btn"
+    type="submit"
+    value="Verify OTP"
+  />
+</form>
+
+<!-- Feedback Text -->
+<p id="log-txt"></p>
+
+
+        </div>
+      </div>
+    </section>
+
+    <script src="{% static '/js/login.js' %}"></script>
+  </body>
+</html>
